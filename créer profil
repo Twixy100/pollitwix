@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Setup</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="setupBody">
+
+<h2>Créer votre profil</h2>
+
+<input id="username" placeholder="Pseudo">
+
+<div class="photoSquare" id="photoPreview">
+Photo
+</div>
+
+<input type="file" accept="image/*" onchange="previewPhoto(event)">
+
+<button onclick="finishSetup()">Créer le compte</button>
+
+<script src="script.js"></script>
+
+</body>
+</html>
