@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Home</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+<button onclick="logout()">
+    Déconnexion
+</button>
+
+<script type="module" src="script.js"></script>
 
 <body class="homeBody">
 
-<div class="leftBar">
+    <div class="leftBar">
+        <a href="profile.html">👤</a>
+        <div class="messageIcon">💬</div>
+    </div>
 
-<a href="profile.html">👤</a>
+    <div class="rightBar"></div>
 
-<div class="messageIcon">💬</div>
+    <div class="homeContent">
 
-</div>
+        <input class="searchBar" placeholder="Rechercher">
 
-<div class="rightBar"></div>
+        <div id="pollContainer"></div>
 
-<div class="homeContent">
+    </div>
 
-<input class="searchBar" placeholder="Rechercher">
+    <a href="create_poll.html" class="createButton">+</a>
 
-<div id="pollContainer"></div>
-
-</div>
-
-<a href="create_poll.html" class="createButton">+</a>
+    <script type="module" src="script.js"></script>
 
 </body>
+
 </html>
