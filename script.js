@@ -1,85 +1,371 @@
-function goSetup(){
-window.location.href="setup.html"
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCD3LROM6mRR5TtSuwLKGpU2MYqRN3ePS8",
+    authDomain: "pollitwix.firebaseapp.com",
+    projectId: "pollitwix",
+    storageBucket: "pollitwix.firebasestorage.app",
+    messagingSenderId: "141736075948",
+    appId: "1:141736075948:web:8be997a4007da4c9c97509",
+    measurementId: "G-TEW20XMVTJ"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+/* =========================
+   AUTHENTIFICATION
+========================= */
+
+async function loginGoogle() {
+
+    try {
+
+        const result =
+            await signInWithPopup(auth, provider);
+
+        console.log(
+            "Connecté :",
+            result.user.displayName
+        );
+
+        window.location.href = "home.html";
+
+    } catch (error) {
+
+        console.error(error);
+        alert(error.message);
+    }
 }
 
-function previewPhoto(event){
+async function registerEmail() {
 
-let file=event.target.files[0]
+    const email =
+        document.getElementById("email")?.value;
 
-if(!file)return
+    const password =
+        document.getElementById("password")?.value;
 
-let reader=new FileReader()
+    try {
 
-reader.onload=function(e){
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
-let box=document.getElementById("photoPreview")
+        alert("Compte créé !");
 
-box.innerHTML=""
+        window.location.href = "home.html";
 
-let img=document.createElement("img")
+    } catch (error) {
 
-img.src=e.target.result
-
-box.appendChild(img)
-
-localStorage.setItem("profilePic",e.target.result)
-
+        alert(error.message);
+    }
 }
 
-reader.readAsDataURL(file)
+async function loginEmail() {
 
+    const email =
+        document.getElementById("email")?.value;
+
+    const password =
+        document.getElementById("password")?.value;
+
+    try {
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        window.location.href = "home.html";
+
+    } catch (error) {
+
+        alert(error.message);
+    }
 }
 
-function finishSetup(){
+async function logout() {
 
-let name=document.getElementById("username").value
+    try {
 
-localStorage.setItem("username",name)
+        await signOut(auth);
 
-window.location.href="home.html"
+        window.location.href = "login.html";
 
+    } catch (error) {
+
+        alert(error.message);
+    }
 }
 
-function editProfile(){
+/* =========================
+   PROFIL
+========================= */
 
-let name=document.getElementById("profileName").value
-let bio=document.getElementById("profileBio").value
+function goSetup() {
 
-localStorage.setItem("username",name)
-localStorage.setItem("bio",bio)
-
+    window.location.href = "setup.html";
 }
 
-window.onload=function(){
+function previewPhoto(event) {
 
-if(document.getElementById("profileName")){
+    let file = event.target.files[0];
 
-document.getElementById("profileName").value=localStorage.getItem("username")||""
+    if (!file) return;
 
-document.getElementById("profileBio").value=localStorage.getItem("bio")||""
+    let reader = new FileReader();
 
-document.getElementById("profileImage").src=localStorage.getItem("profilePic")
+    reader.onload = function (e) {
 
+        let box =
+            document.getElementById("photoPreview");
+
+        if (!box) return;
+
+        box.innerHTML = "";
+
+        let img =
+            document.createElement("img");
+
+        img.src = e.target.result;
+
+        box.appendChild(img);
+
+        localStorage.setItem(
+            "profilePic",
+            e.target.result
+        );
+    };
+
+    reader.readAsDataURL(file);
 }
 
+function finishSetup() {
+
+    let name =
+        document.getElementById("username")?.value;
+
+    localStorage.setItem(
+        "username",
+        name
+    );
+
+    window.location.href = "home.html";
 }
 
-function publishPoll(){
+function editProfile() {
 
-let question=document.getElementById("pollQuestion").value
+    let name =
+        document.getElementById("profileName")?.value;
 
-let color=document.getElementById("pollColor").value
+    let bio =
+        document.getElementById("profileBio")?.value;
 
-let multiple=document.getElementById("multipleChoice").checked
+    localStorage.setItem(
+        "username",
+        name
+    );
 
-let poll={question,color,multiple}
+    localStorage.setItem(
+        "bio",
+        bio
+    );
 
-let polls=JSON.parse(localStorage.getItem("polls"))||[]
-
-polls.push(poll)
-
-localStorage.setItem("polls",JSON.stringify(polls))
-
-window.location.href="home.html"
-
+    alert("Profil enregistré !");
 }
+
+/* =========================
+   SONDAGES
+========================= */
+
+function publishPoll() {
+
+    let question =
+        document.getElementById("pollQuestion")?.value;
+
+    let color =
+        document.getElementById("pollColor")?.value;
+
+    let multiple =
+        document.getElementById("multipleChoice")?.checked;
+
+    let poll = {
+        question,
+        color,
+        multiple
+    };
+
+    let polls =
+        JSON.parse(
+            localStorage.getItem("polls")
+        ) || [];
+
+    polls.push(poll);
+
+    localStorage.setItem(
+        "polls",
+        JSON.stringify(polls)
+    );
+
+    window.location.href = "home.html";
+}
+
+function deletePoll(index) {
+
+    let polls =
+        JSON.parse(
+            localStorage.getItem("polls")
+        ) || [];
+
+    polls.splice(index, 1);
+
+    localStorage.setItem(
+        "polls",
+        JSON.stringify(polls)
+    );
+
+    location.reload();
+}
+
+/* =========================
+   CHARGEMENT
+========================= */
+
+window.addEventListener("load", () => {
+
+    if (
+        document.getElementById("profileName")
+    ) {
+
+        document.getElementById(
+            "profileName"
+        ).value =
+            localStorage.getItem(
+                "username"
+            ) || "";
+
+        document.getElementById(
+            "profileBio"
+        ).value =
+            localStorage.getItem(
+                "bio"
+            ) || "";
+
+        let img =
+            document.getElementById(
+                "profileImage"
+            );
+
+        if (img) {
+
+            img.src =
+                localStorage.getItem(
+                    "profilePic"
+                ) || "";
+        }
+    }
+
+    let container =
+        document.getElementById(
+            "pollContainer"
+        );
+
+    if (container) {
+
+        let polls =
+            JSON.parse(
+                localStorage.getItem(
+                    "polls"
+                )
+            ) || [];
+
+        polls.forEach(
+            function (poll, index) {
+
+                let card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "pollCard";
+
+                card.style.backgroundColor =
+                    poll.color;
+
+                card.innerHTML = `
+                    <h3>${poll.question}</h3>
+                    <p>${
+                        poll.multiple
+                        ? "Réponses multiples"
+                        : "Réponse unique"
+                    }</p>
+                    <button onclick="deletePoll(${index})">
+                        🗑️ Supprimer
+                    </button>
+                `;
+
+                container.appendChild(card);
+            }
+        );
+    }
+});
+
+/* =========================
+   PROTECTION DES PAGES
+========================= */
+
+onAuthStateChanged(auth, (user) => {
+
+    const page =
+        window.location.pathname
+            .split("/")
+            .pop();
+
+    if (
+        !user &&
+        page !== "login.html" &&
+        page !== "index.html"
+    ) {
+
+        window.location.href =
+            "login.html";
+    }
+});
+
+/* =========================
+   EXPOSER AU HTML
+========================= */
+
+window.loginGoogle = loginGoogle;
+window.loginEmail = loginEmail;
+window.registerEmail = registerEmail;
+window.logout = logout;
+
+window.goSetup = goSetup;
+window.previewPhoto = previewPhoto;
+window.finishSetup = finishSetup;
+window.editProfile = editProfile;
+
+window.publishPoll = publishPoll;
+window.deletePoll = deletePoll;
