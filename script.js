@@ -200,25 +200,61 @@ function editProfile() {
 
 function publishPoll() {
 
-    let question =
-        document.getElementById("pollQuestion")?.value;
+    const question =
+        document.getElementById("pollQuestion").value;
 
-    let color =
-        document.getElementById("pollColor")?.value;
+    const color =
+        document.getElementById("pollColor").value;
 
-    let multiple =
-        document.getElementById("multipleChoice")?.checked;
+    const multiple =
+        document.getElementById("multipleChoice").checked;
 
-    let poll = {
-        question,
-        color,
-        multiple
+    const answerInputs =
+        document.querySelectorAll(".answerInput");
+
+    const answers = [];
+
+    answerInputs.forEach(input => {
+
+        if(input.value.trim() !== ""){
+
+            answers.push({
+                text: input.value,
+                votes: 0
+            });
+
+        }
+
+    });
+
+    if(question.trim() === ""){
+
+        alert("Écris une question");
+
+        return;
+    }
+
+    if(answers.length < 2){
+
+        alert("Ajoute au moins 2 réponses");
+
+        return;
+    }
+
+    const poll = {
+
+        question: question,
+
+        color: color,
+
+        multiple: multiple,
+
+        answers: answers
+
     };
 
     let polls =
-        JSON.parse(
-            localStorage.getItem("polls")
-        ) || [];
+        JSON.parse(localStorage.getItem("polls")) || [];
 
     polls.push(poll);
 
@@ -352,6 +388,27 @@ onAuthStateChanged(auth, (user) => {
             "login.html";
     }
 });
+function addAnswer() {
+
+    const container =
+        document.getElementById("answersContainer");
+
+    const count =
+        container.querySelectorAll(".answerInput").length + 1;
+
+    const input =
+        document.createElement("input");
+
+    input.className = "answerInput";
+
+    input.placeholder = "Réponse " + count;
+
+    container.appendChild(document.createElement("br"));
+    container.appendChild(document.createElement("br"));
+    container.appendChild(input);
+}
+
+window.addAnswer = addAnswer;
 
 /* =========================
    EXPOSER AU HTML
