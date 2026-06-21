@@ -152,3 +152,147 @@ flex-direction:column;
 align-items:center;
 margin-top:100px;
 }
+/* ===== HOME ===== */
+
+.homeBody{
+    margin:0;
+    background:#0f172a;
+    font-family:Arial,sans-serif;
+    color:white;
+}
+
+.homeContent{
+    max-width:800px;
+    margin:auto;
+    padding:20px;
+}
+
+.searchBar{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    margin-bottom:25px;
+    font-size:16px;
+}
+
+/* ===== CARTES DE SONDAGE ===== */
+
+.pollCard{
+    background:#1e293b;
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.3);
+}
+
+.pollCard h3{
+    margin-top:0;
+    margin-bottom:20px;
+    font-size:22px;
+}
+
+/* ===== REPONSES ===== */
+
+.pollOption{
+    width:100%;
+    padding:15px;
+    margin-bottom:12px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.2s;
+}
+
+.pollOption:hover{
+    transform:scale(1.02);
+}
+
+.resultBar{
+    width:100%;
+    height:30px;
+    background:#334155;
+    border-radius:15px;
+    overflow:hidden;
+    margin-top:8px;
+    margin-bottom:15px;
+}
+
+.resultFill{
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:bold;
+    transition:0.4s;
+}
+
+.deleteButton{
+    background:#dc2626;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.deleteButton:hover{
+    background:#b91c1c;
+}
+
+/* ===== BOUTON CREER ===== */
+
+.createButton{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#3b82f6;
+    color:white;
+    text-decoration:none;
+    font-size:35px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.4);
+}
+
+.createButton:hover{
+    transform:scale(1.08);
+}
+
+/* ===== CREATION SONDAGE ===== */
+
+.pollBody{
+    background:#0f172a;
+    color:white;
+    font-family:Arial,sans-serif;
+    padding:30px;
+}
+
+.pollBody input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-size:15px;
+}
+
+.pollBody button{
+    background:#3b82f6;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.pollBody button:hover{
+    background:#2563eb;
+}
