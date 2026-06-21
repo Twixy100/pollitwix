@@ -345,24 +345,54 @@ window.addEventListener("load", () => {
 
     let answersHTML = "";
 
-    if (poll.answers) {
+   if (poll.answers) {
 
-        poll.answers.forEach((answer, answerIndex) => {
+    let totalVotes = 0;
 
-            answersHTML += `
-                <div style="margin:10px 0;">
-                    <button onclick="vote(${index},${answerIndex})">
-                        ${answer.text}
-                    </button>
-                    <span id="result-${index}-${answerIndex}">
-                        ${answer.votes || 0} vote(s)
-                    </span>
+    poll.answers.forEach(answer => {
+
+        totalVotes += answer.votes || 0;
+
+    });
+
+    poll.answers.forEach((answer, answerIndex) => {
+
+        let percent = 0;
+
+        if (totalVotes > 0) {
+
+            percent = Math.round(
+                (answer.votes / totalVotes) * 100
+            );
+
+        }
+
+        answersHTML += `
+            <button
+                class="pollOption"
+                onclick="vote(${index},${answerIndex})">
+                ${answer.text}
+            </button>
+
+            <div class="resultBar">
+
+                <div
+                    class="resultFill"
+                    style="
+                        width:${percent}%;
+                        background:${poll.color};
+                    ">
+
+                    ${percent}%
+
                 </div>
-            `;
 
-        });
+            </div>
+        `;
 
-    }
+    });
+
+}
 
     card.innerHTML = `
         <h3>${poll.question}</h3>
@@ -371,9 +401,11 @@ window.addEventListener("load", () => {
 
         <br>
 
-        <button onclick="deletePoll(${index})">
-            🗑️ Supprimer
-        </button>
+       <button
+    class="deleteButton"
+    onclick="deletePoll(${index})">
+    🗑️ Supprimer
+</button>
     `;
 
     container.appendChild(card);
