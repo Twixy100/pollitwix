@@ -335,37 +335,66 @@ window.addEventListener("load", () => {
                 )
             ) || [];
 
-        polls.forEach(
-            function (poll, index) {
+        polls.forEach(function (poll, index) {
 
-                let card =
-                    document.createElement(
-                        "div"
-                    );
+    let card = document.createElement("div");
 
-                card.className =
-                    "pollCard";
+    card.className = "pollCard";
 
-                card.style.backgroundColor =
-                    poll.color;
+    card.style.backgroundColor = poll.color;
 
-                card.innerHTML = `
-                    <h3>${poll.question}</h3>
-                    <p>${
-                        poll.multiple
-                        ? "Réponses multiples"
-                        : "Réponse unique"
-                    }</p>
-                    <button onclick="deletePoll(${index})">
-                        🗑️ Supprimer
+    let answersHTML = "";
+
+    if (poll.answers) {
+
+        poll.answers.forEach((answer, answerIndex) => {
+
+            answersHTML += `
+                <div style="margin:10px 0;">
+                    <button onclick="vote(${index},${answerIndex})">
+                        ${answer.text}
                     </button>
-                `;
+                    <span id="result-${index}-${answerIndex}">
+                        ${answer.votes || 0} vote(s)
+                    </span>
+                </div>
+            `;
 
-                container.appendChild(card);
-            }
-        );
+        });
+
     }
+
+    card.innerHTML = `
+        <h3>${poll.question}</h3>
+
+        ${answersHTML}
+
+        <br>
+
+        <button onclick="deletePoll(${index})">
+            🗑️ Supprimer
+        </button>
+    `;
+
+    container.appendChild(card);
+
 });
+function vote(pollIndex, answerIndex) {
+
+    let polls =
+        JSON.parse(localStorage.getItem("polls")) || [];
+
+    polls[pollIndex].answers[answerIndex].votes++;
+
+    localStorage.setItem(
+        "polls",
+        JSON.stringify(polls)
+    );
+
+    location.reload();
+}
+
+window.vote = vote;
 
 /* =========================
    PROTECTION DES PAGES
