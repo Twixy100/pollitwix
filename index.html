@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="loginBody">
+
+    <h1>Connectez-vous</h1>
+
+    <button class="loginButton" onclick="loginGoogle()">
+        Continuer avec Google
+    </button>
+
+    <br><br>
+
+    <input
+        id="email"
+        type="email"
+        placeholder="Adresse email"
+    >
+
+    <br><br>
+
+    <input
+        id="password"
+        type="password"
+        placeholder="Mot de passe"
+    >
+
+    <br><br>
+
+    <button class="loginButton" onclick="loginEmail()">
+        Se connecter
+    </button>
+
+    <button class="loginButton" onclick="registerEmail()">
+        Créer un compte
+    </button>
+
+    <script type="module" src="script.js"></script>
+
+</body>
+
+</html>
